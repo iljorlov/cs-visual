@@ -163,6 +163,19 @@ export const GameOfLife = () => {
                     />}
             />
             <Body>
+                <GOLControls 
+                    setGrid={setGrid} 
+                    setRunning={setRunning}
+                    setSideBarToggle={setSideBarToggle}
+                    sidebarToggle={sidebarToggle}
+                    runGame={runGame}
+                    running={running}
+                    runningRef={runningRef}
+                    numCols={numCols}
+                    numRows={numRows}
+                    generateEmptyGrid={generateEmptyGrid}
+                    generateRandomGrid={generateRandomGrid} 
+                />
                 <Canvas>
                     <GameContainerRelative rows={rowsRef.current} cols={colsRef.current} cellSize={cellSize}>
                         {
@@ -183,7 +196,7 @@ export const GameOfLife = () => {
                                             })
                                             setGrid(newGrid)
                                         }}
-                                        onMouseEnter={(e) => {
+                                        onMouseEnter={(e:React.MouseEvent<HTMLDivElement, MouseEvent>) => {
                                             if (e.buttons === 1 || e.buttons === 3){
                                                 const newGrid = produce(grid, gridCopy => {
                                                     gridCopy[i][j] = grid[i][j] === 0 ? 1 : 0;
@@ -197,19 +210,7 @@ export const GameOfLife = () => {
                         }
                     </GameContainerRelative>
                 </Canvas>
-                <GOLControls 
-                    setGrid={setGrid} 
-                    setRunning={setRunning}
-                    setSideBarToggle={setSideBarToggle}
-                    sidebarToggle={sidebarToggle}
-                    runGame={runGame}
-                    running={running}
-                    runningRef={runningRef}
-                    numCols={numCols}
-                    numRows={numRows}
-                    generateEmptyGrid={generateEmptyGrid}
-                    generateRandomGrid={generateRandomGrid} 
-                />
+                
             </Body>
         </>
     )
