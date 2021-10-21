@@ -31,7 +31,7 @@ export const GOLControls:React.FC<IGOLControls> = ({setGrid,setRunning,setSideBa
                 >{running ? 'Stop' : 'Start'}
                 </ControlsBtn>
                 <ControlsBtn
-                                        onClick={() => {
+                    onClick={() => {
                        setRunning(false);
                        setGrid(generateRandomGrid(numRows, numCols))
                    }}

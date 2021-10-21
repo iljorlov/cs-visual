@@ -13,9 +13,9 @@ export const GOLSidebarChildren:React.FC<IGOLSidebarChildren> = ({children, hand
     return (
         <GOLSidebarInjection>
             <h6>Number of rows:</h6>
-            <GOLSidebarChild type="number" min="5" onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChangeRows(e)} value={numRows} name="" id=""  placeholder="rows..."/>
+            <GOLSidebarChild type="number" min="1" onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChangeRows(e)} value={numRows} name="" id=""  placeholder="rows..."/>
             <h6>Number of columns:</h6>
-            <GOLSidebarChild type="number" min="5" onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChangeCols(e)} value={numCols} name="" id=""  placeholder="columns..."/>
+            <GOLSidebarChild type="number" min="1" onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChangeCols(e)} value={numCols} name="" id=""  placeholder="columns..."/>
             <h6>Cell size:</h6>
             <GOLSidebarChild type="number" min="2" onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChangeCellSize(e)} value={cellSize} name="" id=""  placeholder="cell size..."/>
         </GOLSidebarInjection>

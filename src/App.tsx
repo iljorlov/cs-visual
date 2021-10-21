@@ -1,14 +1,14 @@
 import { GameOfLife } from './components/GameOfLife/GameOfLife';
 import { Header } from './components/Header';
 import './styles/global.css';
-import { Body } from './styles/mainCanvas';
+import { AppContainer, Body } from './styles/mainCanvas';
 
 function App() {
   return (
-    <div className="App">
+    <AppContainer className="App">
       <Header />
       <GameOfLife />
-    </div>
+    </AppContainer>
   );
 }
 
