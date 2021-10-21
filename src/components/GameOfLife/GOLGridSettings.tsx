@@ -22,12 +22,12 @@ export const GOLGridSettings:React.FC<IGOLSidebarChildren> = ({ setSidebarEnable
     
     return (
         <GOLSidebarInjection>
-            <SidebarHeader>Number of rows: (max 100)</SidebarHeader>
-            <GOLSidebarChild type="number" min="1" onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChangeRows(e)} value={numRows} name="" id=""  placeholder="rows..."/>
-            <SidebarHeader>Number of columns: (max 120)</SidebarHeader>
-            <GOLSidebarChild type="number" min="1" onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChangeCols(e)} value={numCols} name="" id=""  placeholder="columns..."/>
+            <SidebarHeader>Number of rows: (max 150)</SidebarHeader>
+            <GOLSidebarChild type="number" min="0" onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChangeRows(e)} value={numRows} name="" id=""  placeholder="rows..."/>
+            <SidebarHeader>Number of columns: (max 150)</SidebarHeader>
+            <GOLSidebarChild type="number" min="0" onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChangeCols(e)} value={numCols} name="" id=""  placeholder="columns..."/>
             <SidebarHeader>Cell size:</SidebarHeader>
-            <GOLSidebarChild type="number" min="2" onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChangeCellSize(e)} value={cellSize} name="" id=""  placeholder="cell size..."/>
+            <GOLSidebarChild type="number" min="0" onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChangeCellSize(e)} value={cellSize} name="" id=""  placeholder="cell size..."/>
         </GOLSidebarInjection>
     )
 }

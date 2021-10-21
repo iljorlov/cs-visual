@@ -185,7 +185,7 @@ export const GameOfLife: React.FC<IGameOfLife> = ({sidebarEnabled, setSidebarEna
     const handleChangeRows = (e: React.ChangeEvent<HTMLInputElement>) => {
     // const handleChangeRows = (e: number) => {
         let newRows = parseInt(e.target.value);
-        if (newRows <= 100 && newRows >= 1){
+        if (newRows <= 150 && newRows >= 0){
             setRunning(false);
             setNumRows(newRows);
             const newGrid = generateEmptyGrid(newRows,colsRef.current);
@@ -196,7 +196,7 @@ export const GameOfLife: React.FC<IGameOfLife> = ({sidebarEnabled, setSidebarEna
     const handleChangeCols = (e: React.ChangeEvent<HTMLInputElement>) => {
     // const handleChangeCols = (e: number) => {
         let newCols = parseInt(e.target.value);
-        if (newCols <= 120 && newCols >= 1){
+        if (newCols <= 150 && newCols >= 0){
             setRunning(false);
             setNumCols(newCols);
             const newGrid = generateEmptyGrid(rowsRef.current, newCols);
@@ -223,7 +223,7 @@ export const GameOfLife: React.FC<IGameOfLife> = ({sidebarEnabled, setSidebarEna
 
     const loadPattern = (pattern: number[][] = barge2spaceship) => {
         let newGrid
-        if (rowsRef.current < pattern.length || colsRef.current < pattern[0].length){
+        if (colsRef.current < pattern.length || rowsRef.current < pattern[0].length){
             newGrid = generateEmptyGrid(50,50)
         } else {
             newGrid = JSON.parse(JSON.stringify(generateEmptyGrid(rowsRef.current,colsRef.current)))
@@ -239,18 +239,13 @@ export const GameOfLife: React.FC<IGameOfLife> = ({sidebarEnabled, setSidebarEna
             }
         }
 
+        setNumCols(newGrid.length)
+        setNumRows(newGrid[0].length)
         setGrid(newGrid)
     }
 
 
-    console.log(`
-        GLOBAL: sidebarEnables: ${sidebarEnabled}
-        
-        ====
-        showPatterns: ${showPatterns}
-        showGridSetting: ${showGridSettings}
 
-    `)
     
     
 

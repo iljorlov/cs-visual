@@ -98,6 +98,7 @@ export const GOLSidebarChild = styled.input`
     -o-appearance:          none;
     appearance:             none;
     display: flex;
+    justify-content: center;
     border-radius: 0;
     border: none;
     outline: none;
@@ -110,12 +111,12 @@ export const GOLSidebarChild = styled.input`
     border-bottom: 3px solid #9C9F9E;
     border-right: 3px solid #9C9F9E;
     color: #1E1E1E;
-&:hover{
-        border-bottom: 3px solid #CFCFCF;
-        border-right: 3px solid #CFCFCF;
-        border-top: 3px solid #9C9F9E;
-        border-left: 3px solid #9C9F9E;
-    }
+    &:hover{
+            border-bottom: 3px solid #CFCFCF;
+            border-right: 3px solid #CFCFCF;
+            border-top: 3px solid #9C9F9E;
+            border-left: 3px solid #9C9F9E;
+        }
 `
 
 export const PatternCarousel = styled.div`

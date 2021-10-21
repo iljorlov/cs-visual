@@ -9,11 +9,6 @@ interface IGOLPatternCarousel {
 
 const GOLPatternCarousel:React.FC<IGOLPatternCarousel> = ( {loadPattern}) => {
 
-
-    useEffect(() => {
-        console.log('carousel rendered')
-    })
-
     const memoizedValue = useMemo(() => {
         return (
             <PatternCarousel>
