@@ -24,7 +24,7 @@ export const StyledSidebar = styled.div<StyledSidebarProps>`
     border-left: 3px solid #808583;
     border-top: 3px solid #9C9F9E;
     border-right: 3px solid #9C9F9E;
-    overflow: visible;
+    overflow: scroll;
 `
 
 interface IAbsoluteShadow {

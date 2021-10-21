@@ -74,6 +74,9 @@ export const GameOfLife: React.FC<IGameOfLife> = ({sidebarEnabled, setSidebarEna
     });
 
     const [numCols, setNumCols] = useState(() => {
+        if (screen!.width < 400){
+            return 40;
+        }
         return 50;
     });
     const [grid, setGrid] = useState(() => {
