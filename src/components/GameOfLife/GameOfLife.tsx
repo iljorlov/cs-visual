@@ -1,14 +1,18 @@
 import produce from 'immer';
 import { stringify } from 'querystring';
-import React, { useCallback, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
+import { brotliCompressSync, brotliDecompressSync } from 'zlib';
 import useScreen from '../../hooks/useScreen';
 import useWindowSize from '../../hooks/useWindowSize';
-import { Cell, CellRelative, ControlsContainer, GameContainer, GameContainerRelative, PatternCarousel, Row } from '../../styles/gameOfLifeStyles';
+import { Cell, CellRelative, ControlsContainer, GameContainer, GameContainerRelative, IndividualPattern, PatternCarousel, Row } from '../../styles/gameOfLifeStyles';
 import { Body, Canvas, Main } from '../../styles/mainCanvas';
+import { AbsoluteShadow } from '../../styles/sidebarStyles';
 import { Sidebar } from '../Sidebar';
 import { GOLControls } from './GOLControls';
+import { MemoiszedGOLPatternCarousel } from './GOLPatternCarousel';
 import { achimsp11, barge2spaceship, patternList } from './GOLPatterns';
-import { GOLSidebarChildren } from './GOLSidebarChildren';
+import { GOLGridSettings } from './GOLGridSettings';
+import { GOLSidebarChild } from './GOLSidebarChild';
 
 export const generateEmptyGrid = (rowsInput: number, colsInput: number) => {
     let rows = [];
@@ -18,7 +22,34 @@ export const generateEmptyGrid = (rowsInput: number, colsInput: number) => {
     return rows;
 }
 
-export const GameOfLife = () => {
+
+
+interface IGameOfLife {
+    sidebarEnabled: boolean
+    setSidebarEnabled: React.Dispatch<React.SetStateAction<boolean>>
+
+}
+export const GameOfLife: React.FC<IGameOfLife> = ({sidebarEnabled, setSidebarEnabled}) => {
+
+    useEffect(() => {
+        const shadow = document.querySelector(".shadow")
+        shadow?.addEventListener('click', () => {
+            setSidebarEnabled(false);
+            setShowGridSettings(false);
+            setShowPatterns(false);
+        })
+        
+
+        return () => {
+            shadow?.removeEventListener('click', () => {
+                setSidebarEnabled(false);
+                setShowGridSettings(false);
+                setShowPatterns(false);
+            })
+        }
+    })
+
+    
 
     const screen = useScreen()
     
@@ -30,23 +61,27 @@ export const GameOfLife = () => {
         return rows;
     }
 
-    const [sidebarToggle, setSideBarToggle] = useState(false);
+    // const [sidebarToggle, setSideBarToggle] = useState(false);
 
-    const [cellSize, setCellSize] = useState(15);
+    const [cellSize, setCellSize] = useState(() => {
+        if (screen!.width < 800){
+            return 7;
+        }
+        return 15;
+    });
     const [numRows, setNumRows] = useState(() => {
-        return 50;
+        return 40;
     });
 
     const [numCols, setNumCols] = useState(() => {
-        
-        if (screen!.width < 800){
-            return 25;
-        }
         return 50;
     });
     const [grid, setGrid] = useState(() => {
         return generateEmptyGrid(numRows, numCols);
     });
+
+    const [showPatterns, setShowPatterns] = useState(false)
+    const [showGridSettings, setShowGridSettings] = useState(false)
 
     // ==== REFS ===============================
     const [running, setRunning] = useState(false);
@@ -190,7 +225,7 @@ export const GameOfLife = () => {
         } else {
             newGrid = JSON.parse(JSON.stringify(generateEmptyGrid(rowsRef.current,colsRef.current)))
         }
-        
+
         let offsetX = Math.floor((newGrid[0].length - pattern[0].length) / 2)
         let offsetY = Math.floor((newGrid.length - pattern.length) / 2)
         
@@ -203,6 +238,16 @@ export const GameOfLife = () => {
 
         setGrid(newGrid)
     }
+
+
+    console.log(`
+        GLOBAL: sidebarEnables: ${sidebarEnabled}
+        
+        ====
+        showPatterns: ${showPatterns}
+        showGridSetting: ${showGridSettings}
+
+    `)
     
     
 
@@ -213,25 +258,67 @@ export const GameOfLife = () => {
             width={screen!.width}
         >
             <Sidebar 
-                enabled={sidebarToggle} 
+                // enabled={sidebarEnabled} 
+                enabled={showGridSettings} 
                 children={
-                    <GOLSidebarChildren 
-                        handleChangeRows={handleChangeRows}
-                        handleChangeCols={handleChangeCols}
-                        handleChangeCellSize={handleChangeCellSize}    
-                        numRows={numRows}
-                        numCols={numCols}
-                        cellSize={cellSize}
-                    />}
+                    // <GOLGridSettings
+                    //     handleChangeRows={handleChangeRows}
+                    //     handleChangeCols={handleChangeCols}
+                    //     handleChangeCellSize={handleChangeCellSize}    
+                    //     numRows={numRows}
+                    //     numCols={numCols}
+                    //     cellSize={cellSize}
+                    //     setSidebarEnabled={setSidebarEnabled}
+                    //     setShowGridSettings={setShowGridSettings}
+                    //     setShowPatterns={setShowPatterns}
+                    // />
+                    <GOLSidebarChild 
+                        child={
+                            <GOLGridSettings 
+                            handleChangeRows={handleChangeRows}
+                                handleChangeCols={handleChangeCols}
+                                handleChangeCellSize={handleChangeCellSize}    
+                                numRows={numRows}
+                                numCols={numCols}
+                                cellSize={cellSize}
+                                setSidebarEnabled={setSidebarEnabled}
+                                setShowGridSettings={setShowGridSettings}
+                                setShowPatterns={setShowPatterns}
+                            
+                            />
+                        }
+                        setSidebarEnabled={setSidebarEnabled}
+                        setShowGridSettings={setShowGridSettings}
+                        setShowPatterns={setShowPatterns}
+                    />
+                }
             />
+            <Sidebar 
+                enabled={showPatterns} 
+                children={
+                    <GOLSidebarChild 
+                        child={
+                            <MemoiszedGOLPatternCarousel 
+                                loadPattern={loadPattern}
+                            />
+                        }
+                        setSidebarEnabled={setSidebarEnabled}
+                        setShowGridSettings={setShowGridSettings}
+                        setShowPatterns={setShowPatterns}
+                    />
+                    
+            }
+            />
+            {/*  */}
+            
             <Body
                 className="body"
             >
                 <GOLControls 
                     setGrid={setGrid} 
                     setRunning={setRunning}
-                    setSideBarToggle={setSideBarToggle}
-                    sidebarToggle={sidebarToggle}
+                    setSideBarToggle={setSidebarEnabled}
+                    sidebarToggle={sidebarEnabled}
                     runGame={runGame}
                     running={running}
                     runningRef={runningRef}
@@ -239,18 +326,21 @@ export const GameOfLife = () => {
                     numRows={numRows}
                     generateEmptyGrid={generateEmptyGrid}
                     generateRandomGrid={generateRandomGrid} 
+                    setShowGridSettings={setShowGridSettings}
+                    showGridSettings={showGridSettings}
+                    showPatterns={showPatterns}
+                    setShowPatterns={setShowPatterns}
                 />
-                <div
+                {/* ===================  FOR PATTERN DEBUG  ========================== */}
+                {/* <div
                     onClick={() => handleSaveToPC(grid)}
                 >save</div>
                 <div
                     onClick={() => loadPattern()}
                 >load
-
-                </div>
-                {/* <Canvas
-                
-                > */}
+                </div> */}
+                {/* =========================================================== */}
+            
                     <GameContainerRelative 
                     rows={rowsRef.current} cols={colsRef.current} cellSize={cellSize}>
                         {
@@ -264,7 +354,7 @@ export const GameOfLife = () => {
                                             width: `${cellSize}px`,
                                             left: `${cellSize * j}px`,
                                             top: `${cellSize * i}px`,
-                                            backgroundColor: `${col === 0 ? '#1E1E1E' : '#E0E0E0'}`,
+                                            backgroundColor: `${col === 0 ? '#1E1E1E' : '#C0C0C0'}`,
                                         }}
                                         onClick={() => {
                                             const newGrid = produce(grid, gridCopy => {
@@ -319,35 +409,8 @@ export const GameOfLife = () => {
                         ))}
                     </GameContainer> */}
                     
-                {/* </Canvas> */}
-                <PatternCarousel>
-                    {patternList.map(pattern => (
-                        <GameContainerRelative
-                            rows={pattern.length}
-                            cols={pattern[0].length}
-                            cellSize={5}
-                            onClick={() => loadPattern(pattern)}
-                        >
-                            {
-                            pattern.map((row, i) => (
-                                row.map((col,j) => (
-                                    <CellRelative
-                                        cellSize={cellSizeRef.current}
-                                        key={`${i}-${j}`}
-                                        style={{
-                                            height: `${5}px`,
-                                            width: `${5}px`,
-                                            left: `${5 * j}px`,
-                                            top: `${5 * i}px`,
-                                            backgroundColor: `${col === 0 ? '#1E1E1E' : '#E0E0E0'}`,
-                                        }}
-                                    />
-                                ))
-                            ))
-                        }
-                        </GameContainerRelative>
-                    ))}
-                </PatternCarousel>
+                
+                    
             </Body>
         </Main>
     )

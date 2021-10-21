@@ -14,10 +14,28 @@ interface IGOLControls {
     numRows: number
     numCols: number
     sidebarToggle: boolean
+    setShowGridSettings: React.Dispatch<React.SetStateAction<boolean>>
+    showGridSettings: boolean
+    setShowPatterns: React.Dispatch<React.SetStateAction<boolean>>
+    showPatterns: boolean
 }
 
 
-export const GOLControls:React.FC<IGOLControls> = ({setGrid,setRunning,setSideBarToggle,sidebarToggle,runGame,running,runningRef,generateEmptyGrid,generateRandomGrid,numCols,numRows}) => {
+export const GOLControls:React.FC<IGOLControls> = ({setShowPatterns, showPatterns,showGridSettings, setShowGridSettings, setGrid,setRunning,setSideBarToggle,sidebarToggle,runGame,running,runningRef,generateEmptyGrid,generateRandomGrid,numCols,numRows}) => {
+    
+
+    const handleShowGridSettings = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        setRunning(false);
+        setSideBarToggle(!sidebarToggle);
+        setShowGridSettings(!showGridSettings)
+    }    
+    
+    const handleShowPatterns = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        setRunning(false);
+        setSideBarToggle(!sidebarToggle);
+        setShowPatterns(!showPatterns)
+    }   
+    
     return (
         <ControlsContainer>
             <ControlsBtn
@@ -44,11 +62,15 @@ export const GOLControls:React.FC<IGOLControls> = ({setGrid,setRunning,setSideBa
                 >Clear</ControlsBtn>
                 
                 <ControlsBtn
-                    onClick={() => {
-                        setRunning(false);
-                        setSideBarToggle(!sidebarToggle);
-                    }}
+                    // onClick={() => {
+                    //     setRunning(false);
+                    //     setSideBarToggle(!sidebarToggle);
+                    // }}
+                    onClick={(e) => handleShowGridSettings(e)}
                 >Grid Settings</ControlsBtn>
+                <ControlsBtn
+                    onClick={(e) => handleShowPatterns(e)}
+                >Show Patterns</ControlsBtn>
         </ControlsContainer>
     )
 }

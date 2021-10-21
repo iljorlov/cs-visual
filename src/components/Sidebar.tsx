@@ -4,6 +4,8 @@ import { StyledSidebar } from '../styles/sidebarStyles'
 interface ISidebar {
     enabled: boolean,
     children?: ReactElement<any, any>
+    
+
 }
 
 export const Sidebar:React.FC<ISidebar> = ({enabled, children}) => {

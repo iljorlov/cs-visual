@@ -33,7 +33,7 @@ interface GameContainerRelativeProps {
 
 export const GameContainerRelative = styled.div<GameContainerRelativeProps>`
     padding: 0rem 0rem;
-    margin: 1rem auto 5rem auto;
+    margin: 1rem auto 2rem auto;
     background: #1E1E1E;
     height: ${props => `${props.rows * props.cellSize - 2}px`};
     width: ${props => `${props.cols * props.cellSize - 2}px`};
@@ -56,20 +56,32 @@ export const ControlsContainer = styled.div`
     align-items: center;
     height: 60px;
     margin: 0 0 2rem 0;
+
+    @media (max-width: 500px){
+        margin-bottom: 5rem;
+    }
 `
 export const ControlsBtn = styled.button`
-    border: none;
-    border-radius: 2px;
+    border-top: 3px solid #CFCFCF;
+    border-left: 3px solid #CFCFCF;
+    border-bottom: 3px solid #9C9F9E;
+    border-right: 3px solid #9C9F9E;
     height: 1.75rem;
     font-weight: 500;
     min-width: 5rem;
-    background: #e3e3e3;
+    background: #BFBFBF;
     margin: 0.5rem 0.5rem;
     padding: 0 5px;
     letter-spacing: 0px;
+    position: relative;
     &:hover{
         cursor: pointer;
+        border-bottom: 3px solid #CFCFCF;
+        border-right: 3px solid #CFCFCF;
+        border-top: 3px solid #9C9F9E;
+        border-left: 3px solid #9C9F9E;
     }
+    
 `
 
 
@@ -77,6 +89,7 @@ export const GOLSidebarInjection = styled.div`
     display: flex;
     flex-direction: column;
     width: 100%;
+    background: inherit;
 `
 export const GOLSidebarChild = styled.input`
     -webkit-appearance:     none;
@@ -88,16 +101,43 @@ export const GOLSidebarChild = styled.input`
     border-radius: 0;
     border: none;
     outline: none;
-    margin-bottom: 1rem;
+    margin: 0.5rem 0 1rem;
     padding: 0rem 1rem;
     height: 2rem;
     width: 100%;
-    
+    border-top: 3px solid #CFCFCF;
+    border-left: 3px solid #CFCFCF;
+    border-bottom: 3px solid #9C9F9E;
+    border-right: 3px solid #9C9F9E;
+    color: #1E1E1E;
+&:hover{
+        border-bottom: 3px solid #CFCFCF;
+        border-right: 3px solid #CFCFCF;
+        border-top: 3px solid #9C9F9E;
+        border-left: 3px solid #9C9F9E;
+    }
 `
 
 export const PatternCarousel = styled.div`
-    height: 300px;
     width: 100%;
     display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
     box-shadow: 5px 5px 6px rgba(0,0,0,0.1);
+    background: inherit;
+    padding: 0.5rem;
+    bottom: 0;
+    z-index: 8;
+`
+
+interface IIndividualPattern {
+    cols: number
+    cellSize: number
+}
+export const IndividualPattern = styled.div<IIndividualPattern>`
+    display: flex;
+    width: ${props => `${props.cols * props.cellSize}px`};
+    height: 100%;
+    background: inherit;
 `
