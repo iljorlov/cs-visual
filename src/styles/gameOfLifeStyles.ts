@@ -140,4 +140,5 @@ export const IndividualPattern = styled.div<IIndividualPattern>`
     width: ${props => `${props.cols * props.cellSize}px`};
     height: 100%;
     background: inherit;
+    margin-bottom: 1.5rem;
 `
