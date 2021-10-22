@@ -117,8 +117,8 @@ export const GameOfLife: React.FC<IGameOfLife> = ({sidebarEnabled, setSidebarEna
         return neighbors;
     }
 
-
-    const countNeighborsSeamless = (grid: number[][], x:number, y:number) => {
+    //counts neighbors as if the grid is infinite
+    const countNeighborsSeamless = (g: number[][], x:number, y:number) => {
         let sum = 0;
         for (let i = -1; i < 2; i++) {
           for (let j = -1; j < 2; j++) {
@@ -126,15 +126,16 @@ export const GameOfLife: React.FC<IGameOfLife> = ({sidebarEnabled, setSidebarEna
             let col = (x + i + colsRef.current) % colsRef.current;
             let row = (y + j + rowsRef.current) % rowsRef.current;
 
-            sum += grid[col][row];
+            sum += g[row][col];
 
           }
         }
 
-        sum -= grid[x][y];
+        sum -= g[y][x];
         return sum;
       }
 
+    // counts neighbors as if the grid has borders
     const countNeighbors = (g: number[][], i:number,j: number) => {
         let neighbours = 0;
         if (g[i-1] && g[i-1][j]){
@@ -188,7 +189,7 @@ export const GameOfLife: React.FC<IGameOfLife> = ({sidebarEnabled, setSidebarEna
                 for (let row = 0; row< g.length; row++){
                 for(let col = 0; col< g[0].length; col++){
                     // let neighbors = countNeighbors(g,row,col);
-                    let neighbors = countNeighborsSeamless(g,row,col);
+                    let neighbors = countNeighborsSeamless(g,col,row);
 
                     if (neighbors > 3 || neighbors < 2){
                     gridCopy[row][col] = 0
