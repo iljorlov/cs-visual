@@ -101,21 +101,7 @@ export const GameOfLife: React.FC<IGameOfLife> = ({sidebarEnabled, setSidebarEna
     cellSizeRef.current = cellSize;
     //===========================================
 
-
-    const calculateNeighbors = (grid: number[][], x: number, y: number) => {
-        let neighbors = 0;
-        const dirs = [[-1, -1], [-1, 0], [-1, 1], [0, 1], [1, 1], [1, 0], [1, -1], [0, -1]];
-        for (let i = 0; i < dirs.length; i++){
-            const dir = dirs[i];
-            let y1 = y + dir[0];
-            let x1 = x + dir[1];
-
-            if (x1 >= 0 && x1 < colsRef.current && y1 >= 0 && y1 < rowsRef.current && grid[y1][x1]) {
-                neighbors++;
-            }
-        }
-        return neighbors;
-    }
+    
 
     //counts neighbors as if the grid is infinite
     const countNeighborsSeamless = (g: number[][], x:number, y:number) => {
@@ -337,9 +323,9 @@ export const GameOfLife: React.FC<IGameOfLife> = ({sidebarEnabled, setSidebarEna
                     setShowPatterns={setShowPatterns}
                 />
                 {/* ===================  FOR PATTERN DEBUG  ========================== */}
-                <div
+                {/* <div
                     onClick={() => handleSaveToPC(grid)}
-                >save</div>
+                >save</div> */}
                 {/* =========================================================== */}
             
                     <GameContainerRelative 
