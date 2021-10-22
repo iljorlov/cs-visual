@@ -117,6 +117,24 @@ export const GameOfLife: React.FC<IGameOfLife> = ({sidebarEnabled, setSidebarEna
         return neighbors;
     }
 
+
+    const countNeighborsSeamless = (grid: number[][], x:number, y:number) => {
+        let sum = 0;
+        for (let i = -1; i < 2; i++) {
+          for (let j = -1; j < 2; j++) {
+
+            let col = (x + i + colsRef.current) % colsRef.current;
+            let row = (y + j + rowsRef.current) % rowsRef.current;
+
+            sum += grid[col][row];
+
+          }
+        }
+
+        sum -= grid[x][y];
+        return sum;
+      }
+
     const countNeighbors = (g: number[][], i:number,j: number) => {
         let neighbours = 0;
         if (g[i-1] && g[i-1][j]){
@@ -167,13 +185,15 @@ export const GameOfLife: React.FC<IGameOfLife> = ({sidebarEnabled, setSidebarEna
           }
         setGrid(g => {
             return produce(g, gridCopy => {
-                for (let i = 0; i< g.length; i++){
-                for(let j = 0; j< g[i].length; j++){
-                    let neighbours = countNeighbors(g,i,j);
-                    if (neighbours > 3 || neighbours < 2){
-                    gridCopy[i][j] = 0
-                    } else if (g[i][j] === 0 && neighbours === 3){
-                    gridCopy[i][j] = 1
+                for (let row = 0; row< g.length; row++){
+                for(let col = 0; col< g[0].length; col++){
+                    // let neighbors = countNeighbors(g,row,col);
+                    let neighbors = countNeighborsSeamless(g,row,col);
+
+                    if (neighbors > 3 || neighbors < 2){
+                    gridCopy[row][col] = 0
+                    } else if (g[row][col] === 0 && neighbors === 3){
+                    gridCopy[row][col] = 1
                     }
                 }
                 }
@@ -239,8 +259,8 @@ export const GameOfLife: React.FC<IGameOfLife> = ({sidebarEnabled, setSidebarEna
             }
         }
 
-        setNumCols(newGrid.length)
-        setNumRows(newGrid[0].length)
+        setNumCols(newGrid[0].length)
+        setNumRows(newGrid.length)
         setGrid(newGrid)
     }
 
@@ -256,20 +276,8 @@ export const GameOfLife: React.FC<IGameOfLife> = ({sidebarEnabled, setSidebarEna
             width={screen!.width}
         >
             <Sidebar 
-                // enabled={sidebarEnabled} 
                 enabled={showGridSettings} 
                 children={
-                    // <GOLGridSettings
-                    //     handleChangeRows={handleChangeRows}
-                    //     handleChangeCols={handleChangeCols}
-                    //     handleChangeCellSize={handleChangeCellSize}    
-                    //     numRows={numRows}
-                    //     numCols={numCols}
-                    //     cellSize={cellSize}
-                    //     setSidebarEnabled={setSidebarEnabled}
-                    //     setShowGridSettings={setShowGridSettings}
-                    //     setShowPatterns={setShowPatterns}
-                    // />
                     <GOLSidebarChild 
                         child={
                             <GOLGridSettings 
@@ -306,9 +314,7 @@ export const GameOfLife: React.FC<IGameOfLife> = ({sidebarEnabled, setSidebarEna
                     />
                     
             }
-            />
-            {/*  */}
-            
+            />            
             <Body
                 className="body"
             >
@@ -330,13 +336,9 @@ export const GameOfLife: React.FC<IGameOfLife> = ({sidebarEnabled, setSidebarEna
                     setShowPatterns={setShowPatterns}
                 />
                 {/* ===================  FOR PATTERN DEBUG  ========================== */}
-                {/* <div
+                <div
                     onClick={() => handleSaveToPC(grid)}
                 >save</div>
-                <div
-                    onClick={() => loadPattern()}
-                >load
-                </div> */}
                 {/* =========================================================== */}
             
                     <GameContainerRelative 

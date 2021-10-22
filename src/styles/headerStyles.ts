@@ -13,7 +13,7 @@ export const StyledHeader = styled.header`
 `
 
 export const Logo = styled.div`
-    width: 6rem;
+    width: 10ch;
     height: 100%;
     display: flex;
     justify-content: center;

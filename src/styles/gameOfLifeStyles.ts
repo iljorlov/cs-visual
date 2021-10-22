@@ -66,7 +66,7 @@ export const ControlsBtn = styled.button`
     border-left: 3px solid #CFCFCF;
     border-bottom: 3px solid #9C9F9E;
     border-right: 3px solid #9C9F9E;
-    height: 1.75rem;
+    height: 2rem;
     font-weight: 500;
     min-width: 5rem;
     background: #BFBFBF;
@@ -91,7 +91,7 @@ export const GOLSidebarInjection = styled.div`
     width: 100%;
     background: inherit;
 `
-export const GOLSidebarChild = styled.input`
+export const GOLSidebarInput = styled.input`
     -webkit-appearance:     none;
     -moz-appearance:        none;
     -ms-appearance:         none;
